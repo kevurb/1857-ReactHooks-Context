@@ -1,74 +1,90 @@
-import React, { useState } from "react";
+import React from "react";
 import { TextField, Button, Box } from "@mui/material";
+import { useState } from "react";
 import { validarEmail, validarPassword } from "./validaciones";
 
-const DatosUsuario = ({ updateStep }) => {
-  const [email, setEmail] = useState({
-    value: "",
-    valid: null,
-  });
-  const [password, setPassword] = useState({ value: "", valid: null });
+const  DatosUsuario = ({updateStep}) =>{
+  // constructor(props){
+  //   super(props);
+  //   this.state ={
+  //     email: {
+  //       value: '',
+  //       valid: true,
 
+  //     },
+  //     password: {
+  //       value: '',
+  //       valid: true,
+  //     },
+
+  //   }
+  // }
+
+  // render() {
+  const [email, setEmail]=useState({value:"",valid:null});
+  const [password, setPassword]=useState({value:'', valid:null});  
   return (
-    <Box
-      component="form"
-      autocomplete="off"
-      sx={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        flexDirection: "column",
-      }}
-      onSubmit={(e) => {
-        e.preventDefault();
-        if (email.valid && password.valid) {
-          console.log("Siguiente formulario");
-          console.log(email, password);
-          updateStep(1);
-        } else {
-          console.log("No hacer nada");
-        }
-      }}
-    >
-      <TextField
-        label="Correo electrónico"
-        variant="outlined"
-        fullWidth
-        margin="dense"
-        type="email"
-        error={email.valid === false}
-        helperText={
-          email.valid === false && "Ingresa un correo electrónico válido."
-        }
-        value={email.value}
-        onChange={(input) => {
-          const email = input.target.value;
-          const valido = validarEmail(email);
-          setEmail({ value: email, valid: valido });
+      <Box
+        component="form"
+        autocomplete="off"
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          flexDirection: "column",
         }}
-      />
-      <TextField
-        label="Contraseña"
-        variant="outlined"
-        fullWidth
-        margin="dense"
-        type="password"
-        error={password.valid === false}
-        helperText={
-          password.valid === false &&
-          "Ingresa una contraseña válida, Al menos 8 caracteres y máximo 20."
-        }
-        value={password.value}
-        onChange={(input) => {
-          const password = input.target.value;
-          setPassword({ value: password, valid: validarPassword(password) });
+        onSubmit={(e)=>{
+          e.preventDefault();
+          if (email.valid && password.valid){
+            console.log({email,password});
+            updateStep(0);
+          }
+          else{
+            console.log("no hCERNADA");
+          }
+          
+        
         }}
-      />
-      <Button variant="contained" type="submit">
-        Siguiente
-      </Button>
-    </Box>
-  );
-};
+
+      
+      >
+        <TextField
+          label="Correo electrónico"
+          variant="outlined"
+          fullWidth
+          margin="dense"
+          type="email"
+          
+          error={email.valid === false}
+          helperText={email.valid === false && "Ingresa un correo electrónico válido"}
+          value={email.value}
+          onChange={(e)=>{
+            const valid = validarEmail(email)
+            setEmail({value:  e.target.value, valid: !valid})}
+          }
+        />
+        <TextField
+          label="Contraseña"
+          variant="outlined"
+          fullWidth
+          margin="dense"
+          type="password"
+          error={password.valid === false}
+          helperText={password.valid ===false && "Ingresa una contraseña correcta, al menos 8 caracteres"}
+          value={password.value}
+          onChange={(e)=>{
+            const valid1= validarPassword(e.target.value);
+            setPassword ({value : e.target.value, valid: valid1})}
+          }
+        />
+        <Button variant="contained" 
+                type="submit" 
+                >
+          Siguiente
+        </Button>
+      </Box>
+    );
+  }
+//}
 
 export default DatosUsuario;

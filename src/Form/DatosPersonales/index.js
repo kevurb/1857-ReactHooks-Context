@@ -1,16 +1,11 @@
 import React, { useState } from "react";
-import { TextField, Button, Box } from "@mui/material";
-import {
-  validarNombre,
-  validarApellidos,
-  validarTelefono,
-} from "./validaciones";
+import { TextField, Button, Box, useScrollTrigger } from "@mui/material";
+import { validarApellidos, validarNombre, validarTelefono } from "./validaciones";
 
-const DatosPersonales = ({ updateStep }) => {
-  const [name, setName] = useState({ value: "", valid: null });
-  const [lastName, setLastName] = useState({ value: "", valid: null });
-  const [phone, setPhone] = useState({ value: "", valid: null });
-
+const DatosPersonales = ({updateStep}) => {
+  const [nombre, setNombre] = useState({value:'',valid:null})
+  const [apellido, setApellido]= useState({value:'',valid:null})
+  const [num, setNum] = useState({value:'',valid:null})
   return (
     <Box
       component="form"
@@ -21,9 +16,12 @@ const DatosPersonales = ({ updateStep }) => {
         justifyContent: "center",
         flexDirection: "column",
       }}
-      onSubmit={(e) => {
+      value= {nombre.value}
+      error= {nombre.valid}
+      onSubmit={(e)=>{
         e.preventDefault();
-        updateStep(2);
+        updateStep(1);
+        console.log({nombre, apellido, num});
       }}
     >
       <TextField
@@ -32,17 +30,16 @@ const DatosPersonales = ({ updateStep }) => {
         fullWidth
         margin="dense"
         type="text"
-        value={name.value}
-        onChange={(input) => {
-          const value = input.target.value;
-          const valid = validarNombre(value);
-          setName({ value, valid });
-          console.log(value, valid);
-        }}
-        error={name.valid === false}
-        helperText={
-          name.valid === false &&
-          "Ingresa al menos 2 caracteres y máximo 30 caracteres."
+        value= {nombre.value}
+        error= {nombre.valid === false}
+        helperText= {nombre.valid === false &&"Ingresa minimo 2 caratetes y maximo 30 catacteres"}
+        onChange={(e)=>{
+          const value= e.target.value
+          const valid= validarNombre(value)
+          setNombre({value, valid})
+          console.log({value, valid});
+        }
+
         }
       />
       <TextField
@@ -51,17 +48,13 @@ const DatosPersonales = ({ updateStep }) => {
         fullWidth
         margin="dense"
         type="text"
-        value={lastName.value}
-        onChange={(input) => {
-          const value = input.target.value;
-          const valid = validarApellidos(value);
-          setLastName({ value, valid });
-          console.log(value, valid);
-        }}
-        error={lastName.valid === false}
-        helperText={
-          lastName.valid === false &&
-          "Ingresa al menos 2 caracteres y máximo 50 caracteres."
+        value= {apellido.value}
+        error= {apellido.valid === false}
+        helperText= {apellido.valid === false &&"Ingresa minimo 2 caratetes y maximo 30 catacteres"}
+        onChange={(e)=>{
+          const value= e.target.value
+          const valid= validarApellidos(value)
+          setApellido({value, valid})}
         }
       />
       <TextField
@@ -71,17 +64,14 @@ const DatosPersonales = ({ updateStep }) => {
         margin="dense"
         type="number"
         inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
-        value={phone.value}
-        onChange={(input) => {
-          const value = input.target.value;
-          const valid = validarTelefono(value);
-          setPhone({ value, valid });
-          console.log(value, valid);
-        }}
-        error={phone.valid === false}
-        helperText={
-          phone.valid === false &&
-          "Ingresa al menos 8 digitos y máximo 14 digitos."
+        value= {num.value}
+        error= {num.valid === false}
+        helperText={ num.valid === false &&"Ingresa minimo 8 caratetes y maximo 10 catacteres"} 
+        onChange={(e)=>{
+          const value= e.target.value
+          const valid= validarTelefono(value)
+          setNum({value, valid})}
+          
         }
       />
       <Button variant="contained" type="submit">
